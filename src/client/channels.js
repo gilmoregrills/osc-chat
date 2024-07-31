@@ -228,6 +228,67 @@ class SynthChannel extends Channel {
   }
 }
 
+class SamplerChannel extends Channel {
+  constructor(address, samples, sampleBaseUrl) {
+    super(address);
+    this.samples = samples;
+    this.sampleBaseUrl = sampleBaseUrl;
+    this.channelType = "sampler";
+    this.lastMessageDescription = "awaiting input";
+  }
+
+  renderSampleHTMLList() {
+    return `
+      <ol>${this.samples.forEach((key, value) => {
+        return `<li>${key}: ${value}</li>`;
+      })}</ol>
+    `;
+  }
+
+  generateInnerHTML() {
+    return `
+      <h2>channel:${this.address}</h2>
+      <p>channel type: ${this.channelType}</p>
+      <p>samples: ${this.renderSampleHTMLList()}</p>
+      <h3>opt_group(0): effects</h3>
+      ${this.renderEffectsChainAsHTML()}
+      <h3>opt_group(1): vol</h3>
+      <p id="vol_${this.address}">volume: ${this.volume}dB</p>
+      <p id="last_msg_desc_${this.address}">${this.lastMessageDescription}</p>
+    `;
+  }
+
+  updateLastMessageDescription(oscMsg, sample, duration) {
+    const messageString = `${oscMsg.args[0]} played: ${sample} for: ${duration} on ${this.address}`;
+    this.lastMessageDescription = messageString;
+    updateOutputMessageLog(messageString);
+  }
+
+  handle(oscMsg) {
+    console.log(
+      `This is channel: ${this.address} handling the message: ${JSON.stringify(oscMsg)}`,
+    );
+    const note = convertIntsToPitchOctave(oscMsg.args[1][0], oscMsg.args[1][1]);
+    const duration = Time(oscMsg.args[1][2] / 10).toNotation();
+
+    const oscSynth = new this.voice({ volume: this.volume }).toDestination();
+
+    const sampler = new Sampler({
+      volume: this.volume,
+      urls: this.samples,
+      baseUrl: this.sampleBaseUrl,
+    }).toDestination();
+
+    const effects = this.effectsChain.map((effect) => effect.getEffect());
+
+    sampler.chain(...effects);
+    sampler.triggerAttackRelease(note, Time(duration).quantize("8n"));
+
+    this.updateLastMessageDescription(oscMsg, this.samples[note], duration);
+    this.render();
+  }
+}
+
 class EffectChannel extends Channel {
   constructor(address, effect, effectName) {
     super(address);
