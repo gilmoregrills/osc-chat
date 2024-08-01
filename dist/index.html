@@ -12,7 +12,7 @@
           <nav>
             <a href="/about">about</a>
             <a href="/spec">spec</a>
-            <a href="/sequencer">sequencer</a>
+            <!-- <a href="/sequencer">sequencer</a> -->
             <a href="/api">api</a>
           </nav>
         </div>
@@ -24,31 +24,29 @@
     </div>
     <div class="footer">
       <div class="footer-content">
-          <div class="about">
-            <p>osc-chat is a multiplayer OSC message receiver and sender</p>
-            <p>
-              <button id="engine-start-button">start</button> the sequencer, audio engine, and open the websocket
-            </p>
-          <p>send OSC <a href="/spec">messages</a> using <a href="https://github.com/hundredrabbits/Orca">ORCA</a> to port 57121, using the <a href="/sequencer">sequencer</a>, via the <a href="/api">api</a>, or using the field below</p>
-            <p id="sent-message"></p>
-            <form id="broadcast-form">
-              <input type="text" id="text-input-message-field" name="text-input-message-field" value="3 3 2 8">
-              <input type="submit" value="send_osc">
-            </form>
-          </div>
-          <div id="sequencer" class="sequencer">
-          </div>
-          <div class="io">
-            <div class="log">
-              <div id="input-message-log" class="input-message-log">
-              </div>
-              <div id="output-message-log" class="output-message-log">
-              </div>
-            </div>
-            <div id="waveform" class="waveform">
-            </div>
+        <div class="about">
+          <p>osc-chat is a multiplayer OSC message receiver and sender</p>
+          <p>
+            <button id="engine-start-button">start</button> the audio engine and open the websocket
+          </p>
+          <p>send OSC <a href="/spec">messages</a> using <a href="https://github.com/hundredrabbits/Orca">ORCA</a> to port 57121, via the <a href="/api">api</a>, or using the field below</p>
+          <p id="sent-message"></p>
+          <form id="broadcast-form">
+            <input type="text" id="text-input-message-field" name="text-input-message-field" value="3 3 2 8">
+            <input type="submit" value="send_osc">
+          </form>
+        </div>
+        <div class="visualiser">
+          <!-- <div id="sequencer" class="sequencer"> -->
+          <div id="waveform" class="waveform"></div>
+        </div>
+        <div class="io">
+          <div class="log">
+            <div id="input-message-log" class="input-message-log"></div>
+            <div id="output-message-log" class="output-message-log"></div>
           </div>
         </div>
+      </div>
     </div>
     <script src="bundle.js"></script>
   </body>
