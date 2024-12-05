@@ -21,9 +21,12 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] add some visual feedback on channels when a sound is produced
 - [ ] add some visual feedback on channels when settings are changed
 - [ ] improve overall visual design
-- [ ] change the way user names are set, so that messages from the inbuilt sequencer from different clients can be distinguished
-- [ ] add a message explainer, either to the input box of the sequencer or on a separate page (message spec docs page?)
+- [x] change the way user names are set, so that messages from the inbuilt sequencer from different clients can be distinguished
+- [ ] add a message explainer (message spec docs page? on to the i/o panel?))
 - [x] add a documentation nav bar
+- [ ] try setting up again with bun
+- [ ] typescript??
+- [ ] get testy
 
 ### channel types
 
@@ -31,7 +34,8 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] instrument channel with selectable voices
 - [x] synth channel with configurable wave & envelope
 - [ ] sampler channel with configurable samples for each note
-- [ ] ???
+- [ ] effects channel (reverb)
+- [ ] effects channel (????)
 
 ## Decisions
 
