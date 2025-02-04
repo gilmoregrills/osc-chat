@@ -11,19 +11,21 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] add some basic channel settings and ensure they're extensible
 - [x] add per-channel volume control
 - [x] start persisting channel config to a db (must be done entirely server-side) and loading from it on startup
-- [ ] add global settings (time sig?? bpm??) to option groups in control channel
-- [ ] add effects to channels, or a way of adding/confguring effects
-- [x] quantize messages that trigger sound
-- [ ] add more voices to the instrument channels
-- [ ] add a second synth channel
 - [x] assign new connections a randomly generated username based on IP and include that username in the logs
+- [x] add effects to channels, or a way of adding/confguring effects
+- [x] quantize messages that trigger sound
 - [x] OPTIONAL (if possible): persist that username between sessions somehow?
 - [x] add some visual feedback on channels when a sound is produced
+- [x] change the way user names are set, so that messages from the inbuilt sequencer from different clients can be distinguished
+- [x] add a documentation nav bar
+- [x] remove sequencer (in preparation to move it to a separate project)
+- [ ] add global settings (vol?? bpm??) to option groups in control channel
+  - [x] add bpm control
+  - [ ] add global vol control
+- [ ] add more voices to the instrument channels
 - [ ] add some visual feedback on channels when settings are changed
 - [ ] improve overall visual design
-- [x] change the way user names are set, so that messages from the inbuilt sequencer from different clients can be distinguished
 - [ ] add a message explainer (message spec docs page? on to the i/o panel?))
-- [x] add a documentation nav bar
 - [ ] try setting up again with bun
 - [ ] typescript??
 - [ ] get testy
@@ -33,8 +35,8 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] control channel (used to modify other channels)
 - [x] instrument channel with selectable voices
 - [x] synth channel with configurable wave & envelope
+- [x] effects channel (reverb)
 - [ ] sampler channel with configurable samples for each note
-- [ ] effects channel (reverb)
 - [ ] effects channel (????)
 
 ## Decisions
