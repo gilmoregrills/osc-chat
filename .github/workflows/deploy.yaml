@@ -1,0 +1,31 @@
+name: Deploy CDK Stack
+
+permissions:
+  id-token: write
+  contents: read
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_lambda_stack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
+          aws-region: ${{ vars.AWS_TARGET_REGION }}
+          role-session-name: "GithubActionsOSCChat"
+
+      - name: Deploy Stack (via CDK)
+        uses: youyo/aws-cdk-github-actions@v2
+        with:
+          cdk_subcommand: 'deploy'
+          cdk_stack: 'OscChatStack'
+          cdk_args: '--require-approval never'
+          actions_comment: false
