@@ -6,8 +6,11 @@ on:
       - synchronize
       - edited
       - reopened
+  push:
+    branches:
+      - main
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
