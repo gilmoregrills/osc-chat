@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy_stack:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
