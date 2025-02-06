@@ -1,5 +1,6 @@
 # osc-chat
-
+![deploy](https://github.com/gilmoregrills/osc-chat/actions/workflows/deploy.yaml/badge.svg)
+![test](https://github.com/gilmoregrills/osc-chat/actions/workflows/test.yaml/badge.svg)
 multiplayer osc message sequencer, receiver, and sound generator
 
 ## todo
