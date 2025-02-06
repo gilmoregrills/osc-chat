@@ -1,4 +1,4 @@
-name: Deploy CDK Stack
+name: Deploy
 
 permissions:
   id-token: write
