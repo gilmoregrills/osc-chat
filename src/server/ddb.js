@@ -72,7 +72,8 @@ module.exports = {
     });
 
     const response = await docClient.send(command);
-    return response.Items.map((item) => ({
+    // Handle cases where Items might be undefined
+    return (response.Items || []).map((item) => ({
       address: item.channel,
       args: ["loader", item.args],
     }));

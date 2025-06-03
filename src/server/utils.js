@@ -1,7 +1,9 @@
 const { uniqueNamesGenerator, names } = require("unique-names-generator");
 const ipInt = require("ip-to-int");
-const { fromSSO } = require("@aws-sdk/credential-provider-sso");
-const { fromInstanceMetadata } = require("@aws-sdk/credential-providers");
+
+// Import actual providers with specific names
+const actualFromSSO = require("@aws-sdk/credential-provider-sso").fromSSO;
+const actualFromInstanceMetadata = require("@aws-sdk/credential-providers").fromInstanceMetadata;
 
 module.exports = {
   generateNameFromIp: (ip) => {
@@ -12,11 +14,16 @@ module.exports = {
     }).toLowerCase();
   },
 
-  getAWSCredentialsDependingOnEnvironment: () => {
+  getAWSCredentialsDependingOnEnvironment: (providers = {}) => {
+    const {
+      fromInstanceMetadataProvider = actualFromInstanceMetadata,
+      fromSSOProvider = actualFromSSO
+    } = providers;
+
     if (process.env.NODE_ENV == "production") {
-      return fromInstanceMetadata()();
+      return fromInstanceMetadataProvider()();
     } else {
-      return fromSSO({ profile: "osc-chat" })();
+      return fromSSOProvider({ profile: "osc-chat" })();
     }
   },
 };
