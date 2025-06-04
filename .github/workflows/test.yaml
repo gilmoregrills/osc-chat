@@ -13,8 +13,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn' # Using yarn as per original file
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Compile TypeScript
+        run: yarn compile # Assumes 'compile' script is 'tsc --project tsconfig.json'
+      - name: Run tests
+        run: yarn test # Jest will use ts-jest

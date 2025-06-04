@@ -10,10 +10,19 @@ on:
 
 jobs:
   deploy_stack:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-latest # Changed to ubuntu-latest for broader runner availability, can be arm if needed
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn' # Using yarn as per original file
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile # This will install ts-node, typescript, aws-cdk-lib etc.
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

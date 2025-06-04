@@ -1,3 +1,5 @@
+/*! osc.js 2.4.4, Copyright 2023 Colin Clark | github.com/colinbdclark/osc.js */
+
 /**
  * Tone.js
  * @author Yotam Mann

@@ -1,7 +1,7 @@
 {
   "name": "osc-chat",
   "version": "1.0.0",
-  "main": "src/server/index.js",
+  "main": "dist/ts/server/index.js",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -11,17 +11,29 @@
     "cdk": "cdk",
     "cdk:deploy": "cdk deploy",
     "test": "jest",
-    "start": "node src/server/index.js",
-    "start:docker": "docker run -it -p 8080:8080 -p 8081:8081 -p 57121:57121/udp osc-chat:latest"
+    "start": "ts-node src/server/index.ts",
+    "start:docker": "docker run -it -p 8080:8080 -p 8081:8081 -p 57121:57121/udp osc-chat:latest",
+    "compile": "tsc --project tsconfig.json",
+    "watch": "tsc --watch --project tsconfig.json"
   },
   "bin": {
-    "cdk": "bin/cdk.js"
+    "cdk": "bin/cdk.ts"
   },
   "devDependencies": {
+    "@types/estree": "^1.0.5",
+    "@types/express": "^4.17.22",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.12.7",
+    "@types/webpack": "^5.28.5",
+    "@types/ws": "^8.18.1",
     "aws-cdk": "2.70.0",
     "aws-cdk-lib": "2.70.0",
     "constructs": "^10.0.0",
     "jest": "^29.5.0",
+    "ts-jest": "^29.3.4",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
