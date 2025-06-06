@@ -45,7 +45,7 @@
     "tone": "^14.7.77",
     "unique-names-generator": "^4.7.1",
     "util": "^0.12.5",
-    "webpack": "^5.91.0",
+    "webpack": "^5.94.0",
     "ws": "^8.17.1"
   }
 }
