@@ -235,10 +235,13 @@ class SynthChannel extends Channel {
     env.triggerAttackRelease(noteDuration);
     osc.stop(`+${stopTime}`);
 
-    setTimeout(() => {
-      osc.dispose();
-      env.dispose();
-    }, (stopTime + 0.5) * 1000);
+    setTimeout(
+      () => {
+        osc.dispose();
+        env.dispose();
+      },
+      (stopTime + 0.5) * 1000,
+    );
 
     this.updateLastMessageDescription(oscMsg, note, duration);
     this.render();
@@ -291,7 +294,7 @@ class ReverbChannel extends EffectChannel {
   }
 
   setDecayTime(args) {
-    this.decayTime = new Time(args[0] / 2);
+    this.decayTime = new Time(args[0] / 10);
     this.effectNode.decay = Math.max(this.decayTime.toSeconds(), 0.001);
   }
 
