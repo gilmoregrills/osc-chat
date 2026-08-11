@@ -47,11 +47,15 @@ Each channel will display its current settings, grouped by option groups. So for
 
 Channels that can have effects applied to them will always show them under option group 0, even though technicaly it could be any opt_group.
 
-You apply an effect to a channel by specifying the number of the channel containing the effect.
+You apply an effect to a channel by passing the option group the number(s) of the channel(s) containing the effect.
+
+You can also pass 0 as the effect channel to remove all effects from a given channel.
 
 ##### example
 
-`[y, x, 3]` to channel 0 will apply the effect channel 3 to the "effects" option group at `x` for the channel `y`.
+`[y, x, 3, 4]` to channel 0 will apply the effect channels 3 and 4 to the "effects" option group at `x` for the channel `y`.
+
+This action replaces the existing effect chain completely, so a subsequent call with the message `[y, x, 5]` would _remove_ effect channels 3 and 4 from channel `y` while adding effect channel 5.
 
 #### volume
 
@@ -139,6 +143,14 @@ Sets the wet/dry-ness of the effect channel, to the value passed as an argument,
 ##### example
 
 `[y, x, 5]` to channel 0 would update the wetness option group at `x` for channel `y`, setting the wetness to 0.5.
+
+#### feedback
+
+TODO
+
+#### delay
+
+TODO
 
 ## instrument, synth channels
 
