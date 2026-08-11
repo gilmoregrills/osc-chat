@@ -43,6 +43,16 @@ Option groups' settings are set depending on the values of arguments of index 2 
 
 Each channel will display its current settings, grouped by option groups. So for example if channel 1 is an instrument channel, it might have a voice selection option group, to change the voice of the instrument check the section about that option group below.
 
+#### effects
+
+Channels that can have effects applied to them will always show them under option group 0, even though technicaly it could be any opt_group.
+
+You apply an effect to a channel by specifying the number of the channel containing the effect.
+
+##### example
+
+`[y, x, 3]` to channel 0 will apply the effect channel 3 to the "effects" option group at `x` for the channel `y`.
+
 #### volume
 
 Sets the volume of the channel, in decibels. The level is set -`<arg value>`, so the highest volume can be is 0.
