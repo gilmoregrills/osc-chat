@@ -1,7 +1,5 @@
 import { Master, Waveform, Transport } from "tone";
 
-const canvasWidth = 512;
-
 const makeCanvas = () => {
   const div = document.getElementById("waveform");
   const canvas = document.createElement("canvas");
@@ -25,7 +23,7 @@ export const startWaveformLoop = () => {
   const waveform = new Waveform(waveformWidth);
   Master.connect(waveform);
 
-  const repeat = (time) => {
+  const repeat = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const waveData = waveform.getValue();
     var x = 0;
@@ -37,5 +35,5 @@ export const startWaveformLoop = () => {
     ctx.stroke();
   };
 
-  Transport.scheduleRepeat(repeat, "0.1");
+  Transport.scheduleRepeat(repeat, "0.2");
 };

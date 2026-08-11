@@ -39,7 +39,12 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] synth channel with configurable wave & envelope
 - [x] effects channel (reverb)
 - [ ] sampler channel with configurable samples for each note
-- [ ] effects channel (????)
+- [ ] effects channels
+  - [ ] delay
+  - [ ] saturation
+  - [ ] distortion
+  - [ ] chorus
+  - [ ] phaser?
 
 ## Decisions
 
