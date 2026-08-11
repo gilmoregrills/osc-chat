@@ -57,6 +57,10 @@ Because messages are broadcast to all clients, any configuration changes are als
 
 ## development
 
+### setup
+
+- Have an AWS SDK profile set up called `osc-chat` that uses a role with access to the right DynamoDB tables.
+
 ### running locally
 
 always:

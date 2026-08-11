@@ -75,7 +75,7 @@ module.exports = {
         console.log(
           `Received OSC message via WebSocket: ${JSON.stringify(oscMsg)}, redirecting it to UDP port.`,
         );
-        udpPort.send(oscMsg, "0.0.0.0", "57121");
+        udpPort.send(oscMsg, "127.0.0.1", "57121");
       });
     });
   },
