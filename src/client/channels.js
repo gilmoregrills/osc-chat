@@ -16,7 +16,7 @@ class Channel {
   constructor(address) {
     this.address = address;
     this.channelType = "generic";
-    this.volume = -8;
+    this.volume = 0;
     this.lastMessageDescription = "awaiting input";
     this.effectsChain = [];
   }
