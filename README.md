@@ -23,9 +23,9 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] remove sequencer (in preparation to move it to a separate project)
 - [ ] add global settings (vol?? bpm??) to option groups in control channel
   - [x] add bpm control
-- [ ] make it so you can apply multiple effects channels to one instrument/synth channel
-- [ ] add more voices to the instrument channels
-- [ ] add some visual feedback on channels when settings are changed
+- [x] make it so you can apply multiple effects channels to one instrument/synth channel
+- [x] add more voices to the instrument channels
+- [x] add some visual feedback on channels when settings are changed
 - [ ] improve overall visual design
 - [ ] add a message explainer (message spec docs page? on to the i/o panel?))
 - [ ] try setting up again with bun
@@ -38,7 +38,8 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [x] instrument channel with selectable voices
 - [x] synth channel with configurable wave & envelope
 - [x] effects channel (reverb)
-- [ ] sampler channel with configurable samples for each note
+- [ ] drum machine channel
+- [ ] sampler channel with configurable samples for each note?
 - [ ] effects channels
   - [x] delay
   - [ ] saturation
