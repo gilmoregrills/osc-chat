@@ -489,7 +489,9 @@ class ControlChannel extends Channel {
   }
 
   updateLastMessageDescription(channel, action, name) {
-    this.lastMessageDescription = `${name} set:channel:${channel} to: ${action}`;
+    const messageString = `${name} set:channel:${channel} to: ${action}`;
+    this.lastMessageDescription = messageString;
+    updateOutputMessageLog(messageString);
   }
 
   setEffectsChainForChannel(channel, effects) {
@@ -659,10 +661,10 @@ export const allChannels = {
     "/1": new InstrumentChannel("/1", Synth, "osc synth"),
     "/2": new SynthChannel("/2", "sine"),
     "/3": new SynthChannel("/3", "sawtooth"),
-    "/4": new ReverbChannel("/3"),
-    "/5": new DelayChannel("/4"),
-    "/6": new DistortionChannel("/5"),
-    "/7": new ChorusChannel("/6"),
+    "/4": new ReverbChannel("/4"),
+    "/5": new DelayChannel("/5"),
+    "/6": new DistortionChannel("/6"),
+    "/7": new ChorusChannel("/7"),
   },
 
   async initialise() {

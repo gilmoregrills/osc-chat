@@ -1,5 +1,5 @@
 import { start, getDestination, Transport } from "tone";
-import { updateInputMessageLog } from "./logging";
+import { updateInputMessageLog, updateOutputMessageLog } from "./logging";
 import { Channel, ControlChannel, allChannels } from "./channels";
 import { WebSocketPort, timeTag } from "osc";
 import { messageStringToMessage } from "./utils";
@@ -21,7 +21,21 @@ oscPort.on("message", (oscMsg) => {
   if (channel) {
     channel.handle(oscMsg);
   } else {
-    console.log(`Channel not found: ${oscMsg.address}`);
+    if (oscMsg.address.startsWith("/orca")) {
+      switch (oscMsg.address) {
+        case "/orca/started":
+          updateOutputMessageLog(`${oscMsg.args[0]}: connected`);
+          break;
+        case "/orca/stopped":
+          updateOutputMessageLog(`${oscMsg.args[0]}: disconnected`);
+          break;
+        default:
+          console.log(`Unrecognised orca channel: ${oscMsg.address}`);
+          break;
+      }
+    } else {
+      console.log(`Channel not found: ${oscMsg.address}`);
+    }
   }
 
   updateInputMessageLog(
