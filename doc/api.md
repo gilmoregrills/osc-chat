@@ -1,5 +1,9 @@
 # api
 
+- [chat](/)
+- [spec](/spec)
+- [about](/about)
+
 For details of the OSC message spec, see [osc msg spec](../spec).
 
 All API endpoints append to the base URL `/api` (this page lol).

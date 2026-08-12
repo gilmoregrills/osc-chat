@@ -2,6 +2,16 @@ const getControlMessages = require("./ddb").getControlMessages;
 const readFileSync = require("fs").readFileSync;
 const marked = require("marked");
 
+const renderer = {
+  heading(text, level) {
+    const slug = text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w]+/g, "-");
+    return `<h${level} id="${slug}">${text}</h${level}>`;
+  },
+};
+
 module.exports = (app) => {
   app.get("/", (req, res) => {
     res.sendFile(__dirname + "../dist/index.html");
@@ -10,6 +20,7 @@ module.exports = (app) => {
   app.get("/spec", (req, res) => {
     var path = __dirname + "/../../doc/spec.md";
     var file = readFileSync(path, "utf8");
+    marked.use({ renderer });
     res.send(marked.parse(file.toString()));
   });
 

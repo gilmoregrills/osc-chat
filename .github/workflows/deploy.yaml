@@ -5,9 +5,9 @@ permissions:
   contents: read
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   deploy_stack:
@@ -26,7 +26,7 @@ jobs:
       - name: Deploy Stack (via CDK)
         uses: youyo/aws-cdk-github-actions@v2
         with:
-          cdk_subcommand: 'deploy'
-          cdk_stack: 'OscChatStack'
-          cdk_args: '--require-approval never'
+          cdk_subcommand: "deploy"
+          cdk_stack: "OscChatStack"
+          cdk_args: "--require-approval never"
           actions_comment: false
