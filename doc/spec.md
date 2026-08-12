@@ -90,6 +90,9 @@ Because of limitations in ORCA, the BPM is set by combining the integers provide
 |-----------|-----------|---------------- |
 | 2         | 1         | basic synth     |
 |           | 2         | membrane synth  |
+|           | 3         | 'metal' synth   |
+|           | 4         | noise synth     |
+|           | 5         | pluck synth     |
 
 ##### example
 
@@ -130,7 +133,7 @@ Each option is set to the value passed to that argument, divided by 10.
 
 #### decay
 
-If the channel has an option group just for the decay, sets the decay for that channel (currently this only applies to the Reverb channel) to the value passed as an argument, divided by 10.
+If the channel has an option group just for the decay, sets the decay for that channel (currently this only applies to the Reverb channel) to the value passed as an argument, divided by 10 as seconds.
 
 ##### example
 
@@ -146,11 +149,45 @@ Sets the wet/dry-ness of the effect channel, to the value passed as an argument,
 
 #### feedback
 
-TODO
+Sets the feedback of the effect channel, to the value passed as an argument, divided by 10. A feedback of 1 means the full effect is applied to channels that the effect is applied to, a feedback of 0 means no effect is applied, as such the max value it will accept is 10.
+
+##### example
+
+`[y, x, 7]` to channel 0 would update the feedback option group at `x` for channel `y`, setting the feedback to 0.7.
 
 #### delay
 
-TODO
+If the channel has an option group just for the delay, sets the delay for that channel to the value passed as an argument, divided by 10, as seconds.
+
+##### example
+
+`[y, x, 5]` to channel 0 would update the decay option group at `x` for channel `y`, setting the delay to 0.5s / 4n.
+
+#### distortion
+
+If the channel has an option group just for the distortion, sets the distortion for that channel to the value passed as an argument, divided by 10, the result should be a value between 0 and 1.
+
+##### example
+
+`[y, x, 7]` to channel 0 would update the distortion option group at `x` for channel `y`, setting the delay to 0.7.
+
+#### frequency
+
+If the channel has an option group just for the frequency, sets the frequency for that channel to the value(s) passed as arguments, concatenated together, as a single integer.
+
+##### example
+
+`[y, x, 4, 4, 0]` to channel 0 would update the frequency option group at `x` for channel `y`, setting the frequency to 440Hz.
+
+#### depth
+
+If the channel has an option group just for the depth, sets the depth for that channel to the value(s) passed as arguments, concatenated together, as a single integer.
+
+This way of passing it is subject to change in the future, as it is not very intuitive. But currently the only channel that uses this is the Chorus effect channel, and it needed high numbers to have a noticeable effect.
+
+##### example
+
+`[y, x, 2, 0, 0]` to channel 0 would update the depth option group at `x` for channel `y`, setting the depth value to 200.
 
 ## instrument, synth channels
 
@@ -158,15 +195,17 @@ Channels 1 and up are controlled by sending messages to the address that corresp
 
 ### synth & instrument channels
 
-Instrument channels are initialised with a voice, visible in the column for that channel, which can be changed by sending a message to channel 0 as described above.
+Instrument channels are initialised with a pre-set voice, visible in the column for that channel, which can be changed by sending a message to channel 0 as described [above](#voice).
 
-For each of these channels, the args are interpreted as follows:
+Synth channels allow you to configure the waveform and envelope of the sound, which can be changed by sending a message to channel 0 as described in the relevant [sections](#waveform) [above](#envelope).
 
-| arg index | description                                                                            |
-|-----------|----------------------------------------------------------------------------------------|
-| 0         | note, between 1 and 12, running from `C` to `B`, for more info see "pitch map" below   |
-| 1         | octave, from 0 and up, where 0 is the lowest octave                                    |
-| 2         | duration, in seconds `/ 10`, so 10 is 1 second, etc - subject to change                |
+When sending a message directly to each of these channels, the args are interpreted as follows:
+
+| arg index | description                                                                                    |
+|-----------|----------------------------------------------------------------------------------------        |
+| 0         | note, between 1 and 12, running from `C` to `B`, for more info see the [pitch map](#pitch-map) |
+| 1         | octave, from 0 and up, where 0 is the lowest octave                                            |
+| 2         | duration, in seconds `/ 10`, so 10 is 1 second, etc - subject to change                        |
 
 ### example
 
@@ -177,6 +216,7 @@ This sends a message with the args `[1, 2, 3]` to channel 1.
   'args': [1, 2, 3]
 }
 ```
+Which will result in a C2 being played for 0.2 seconds.
 
 ### effects channels
 
@@ -184,9 +224,11 @@ Effects channels contain pre-set effects that can be applied to other channels. 
 
 Messages can't be set directly to effect channels, they're only interacted with through the control channel, either via modifying the effect's settings or by applying the effect to another channel.
 
+To apply an effect to a channel see the "effects" option group section [above](#effects).
+
 ### pitch map
 
-Why does this start from 1 and not 0? Because it seemed more intuitive for humans idk.
+This starts from 1 and not 0 because it seemed more intuitive for humans.
 
 ```javascript
 const pitchMap = {

@@ -42,8 +42,8 @@ multiplayer osc message sequencer, receiver, and sound generator
 - [ ] effects channels
   - [x] delay
   - [ ] saturation
-  - [ ] distortion
-  - [ ] chorus
+  - [x] distortion
+  - [x] chorus
   - [ ] phaser?
 
 ## Decisions

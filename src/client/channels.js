@@ -1,5 +1,8 @@
 import {
   MembraneSynth,
+  MetalSynth,
+  NoiseSynth,
+  PluckSynth,
   Synth,
   Oscillator,
   AmplitudeEnvelope,
@@ -7,6 +10,9 @@ import {
   Transport,
   Reverb,
   FeedbackDelay,
+  Distortion,
+  Chorus,
+  Frequency,
   getDestination,
 } from "tone";
 import { convertIntsToPitchOctave } from "./utils";
@@ -87,10 +93,14 @@ class InstrumentChannel extends Channel {
     switch (arg) {
       case 1:
         return ["osc synth", Synth];
-        break;
       case 2:
         return ["membrane synth", MembraneSynth];
-        break;
+      case 3:
+        return ["'metal' synth", MetalSynth];
+      case 4:
+        return ["noise synth", NoiseSynth];
+      case 5:
+        return ["pluck synth", PluckSynth];
       default:
         return ["osc synth", Synth];
     }
@@ -314,12 +324,6 @@ class ReverbChannel extends EffectChannel {
       <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
     `;
   }
-
-  handle(oscMsg) {
-    console.log(
-      `This is channel: ${this.address}, channels of type effect don't handle messages directly.`,
-    );
-  }
 }
 
 class DelayChannel extends EffectChannel {
@@ -337,7 +341,7 @@ class DelayChannel extends EffectChannel {
 
   setDelayTime(args) {
     this.delayTime = new Time(args[0] / 10);
-    this.effectNode.delayTime.value = this.delayTime.toSeconds();
+    this.effectNode.delayTime = this.delayTime.toSeconds();
   }
 
   getDelayTimeAsNotation() {
@@ -361,13 +365,112 @@ class DelayChannel extends EffectChannel {
       <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
     `;
   }
+}
 
-  handle(oscMsg) {
-    console.log(
-      `This is channel: ${this.address}, channels of type effect don't handle messages directly.`,
-    );
+class DistortionChannel extends EffectChannel {
+  constructor(address) {
+    const distortion = 0.2;
+    super(address, Distortion, "distortion", {
+      distortion: distortion,
+      wet: 0.35,
+    });
+    this.distortion = distortion;
+  }
+
+  setDistortion(args) {
+    this.distortion = args[0] / 10;
+    this.effectNode.distortion.value = this.distortion;
+  }
+
+  generateInnerHTML() {
+    return `
+      <h2>channel:${this.address}</h2>
+      <p>type:${this.channelType}/${this.effectName}</p>
+      <h3>opt_group(1): distortion</h3>
+      <p id="distortion_${this.address}">distortion: <span class="bouncy">${this.distortion}</span></p>
+      <h3>opt_group(2): wetness</h3>
+      <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
+    `;
   }
 }
+
+class ChorusChannel extends EffectChannel {
+  constructor(address) {
+    const frequency = new Frequency("1.5Hz");
+    const delayTime = new Time("0.25s");
+    const depth = 20;
+    super(address, Chorus, "chorus", {
+      frequency: frequency,
+      delayTime: delayTime,
+      depth: depth,
+      wet: 0.35,
+    });
+    this.frequency = frequency;
+    this.delayTime = delayTime;
+    this.depth = depth;
+  }
+
+  setFrequency(args) {
+    this.frequency = new Frequency(parseInt(args.join("")));
+    this.effectNode.frequency.value = this.frequency;
+  }
+
+  setDelayTime(args) {
+    this.delayTime = new Time(args[0] / 10);
+    this.effectNode.delayTime = this.delayTime.toSeconds();
+  }
+
+  getDelayTimeAsNotation() {
+    return this.delayTime.toNotation();
+  }
+
+  setDepth(args) {
+    this.depth = parseInt(args.join(""));
+    this.effectNode.depth = this.depth;
+  }
+
+  generateInnerHTML() {
+    return `
+      <h2>channel:${this.address}</h2>
+      <p>type:${this.channelType}/${this.effectName}</p>
+      <h3>opt_group(1): frequency</h3>
+      <p id="frequency_${this.address}">frequency: <span class="bouncy">${this.frequency.toFrequency()}Hz</span></p>
+      <h3>opt_group(2): delay</h3>
+      <p id="delay_${this.address}">delay: <span class="bouncy">${this.getDelayTimeAsNotation()}/${this.delayTime.toSeconds()}s</span></p>
+      <h3>opt_group(3): depth</h3>
+      <p id="depth_${this.address}">depth: <span class="bouncy">${this.depth}</span></p>
+      <h3>opt_group(4): wetness</h3>
+      <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
+    `;
+  }
+}
+
+// class PhaserChannel extends EffectChannel {
+//   constructor(address) {
+//     const distortion = 0.2;
+//     super(address, Phaser, "phaser", {
+//       distortion: distortion,
+//       wet: 0.35,
+//     });
+//     this.distortion = distortion;
+//   }
+//
+//   setDistortion(args) {
+//     this.distortion = args[0] / 10;
+//     this.effectNode.distortion.value = this.distortion;
+//   }
+//
+//   generateInnerHTML() {
+//     return `
+//       <h2>channel:${this.address}</h2>
+//       <p>type:${this.channelType}/${this.effectName}</p>
+//       <h3>opt_group(1): distortion</h3>
+//       <p id="distortion_${this.address}">distortion: <span class="bouncy">${this.distortion}</span></p>
+//       <h3>opt_group(2): wetness</h3>
+//       <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
+//     `;
+//   }
+// }
 
 class ControlChannel extends Channel {
   constructor(address) {
@@ -504,6 +607,40 @@ class ControlChannel extends Channel {
         default:
           console.log("Invalid option group");
       }
+    } else if (channel instanceof DistortionChannel) {
+      switch (oscMsg.args[1][1]) {
+        case 1:
+          channel.setDistortion(oscMsg.args[1].slice(2));
+          actionMessage = `distortion: ${channel.distortion}`;
+          break;
+        case 2:
+          channel.setWetness(oscMsg.args[1].slice(2));
+          actionMessage = `wetness: ${channel.wetness}`;
+          break;
+        default:
+          console.log("Invalid option group");
+      }
+    } else if (channel instanceof ChorusChannel) {
+      switch (oscMsg.args[1][1]) {
+        case 1:
+          channel.setFrequency(oscMsg.args[1].slice(2));
+          actionMessage = `frequency: ${channel.frequency}`;
+          break;
+        case 2:
+          channel.setDelayTime(oscMsg.args[1].slice(2));
+          actionMessage = `delay: ${channel.getDelayTimeAsNotation()}`;
+          break;
+        case 3:
+          channel.setDepth(oscMsg.args[1].slice(2));
+          actionMessage = `depth: ${channel.depth}`;
+          break;
+        case 4:
+          channel.setWetness(oscMsg.args[1].slice(2));
+          actionMessage = `wetness: ${channel.wetness}`;
+          break;
+        default:
+          console.log("Invalid option group");
+      }
     }
 
     channel.render();
@@ -521,8 +658,11 @@ export const allChannels = {
     "/0": new ControlChannel("/0"),
     "/1": new InstrumentChannel("/1", Synth, "osc synth"),
     "/2": new SynthChannel("/2", "sine"),
-    "/3": new ReverbChannel("/3"),
-    "/4": new DelayChannel("/4"),
+    "/3": new SynthChannel("/3", "sawtooth"),
+    "/4": new ReverbChannel("/3"),
+    "/5": new DelayChannel("/4"),
+    "/6": new DistortionChannel("/5"),
+    "/7": new ChorusChannel("/6"),
   },
 
   async initialise() {
