@@ -1,5 +1,9 @@
 # osc msg spec
 
+- [api](/api)
+- [chat](/)
+- [about](/about)
+
 This page is about the OSC message spec that osc-chat expects, for the API spec see [api](../api).
 
 osc-chat is built with [ORCA](https://github.com/hundredrabbits/Orca) in mind. Because of this, it expects all messages made entirely of integers between 0 and 35.
