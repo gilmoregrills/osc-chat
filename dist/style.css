@@ -43,6 +43,25 @@ nav {
   overflow-y: scroll;
 }
 
+@keyframes textBounce {
+   from {
+     opacity: 1;
+     /* transform: translateY(0px); */
+     transform: scale(1);
+   }
+   to {
+     opacity: 1;
+     /* transform: translateY(-1px); */
+     transform: scale(1.03);
+   }
+}
+
+.bouncy {
+  display: inline-block;
+  animation-name: textBounce;
+  animation-duration: 0.1s; /* Duration of the animation */
+}
+
 .channels-content > * {
   padding:1rem;
 }

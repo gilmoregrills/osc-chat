@@ -29,8 +29,8 @@ class Channel {
     console.log;
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}</p>
-      <p id="last_msg_desc_${this.address}">${this.lastMessageDescription}</p>
+      <p>type:${this.channelType}</p>
+      <p id="last_msg_desc_${this.address}"><span class="bouncy">${this.lastMessageDescription}</span></p>
     `;
   }
 
@@ -41,7 +41,9 @@ class Channel {
 
   renderEffectsChainAsHTML() {
     return this.effectsChain
-      .map((effect) => `<p>${effect.effectName}</p>`)
+      .map(
+        (effect) => `<p><span class="bouncy">${effect.effectName}</span></p>`,
+      )
       .join("");
   }
 
@@ -97,14 +99,14 @@ class InstrumentChannel extends Channel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}</p>
+      <p>type:${this.channelType}</p>
       <h3>opt_group(0): effects</h3>
       ${this.renderEffectsChainAsHTML()}
       <h3>opt_group(1): vol</h3>
-      <p id="vol_${this.address}">volume: ${this.volume}dB</p>
+      <p id="vol_${this.address}">volume: <span class="bouncy">${this.volume}dB</span></p>
       <h3>opt_group(2): voice</h3>
-      <p id="voice_${this.address}">voice: ${this.voiceName}</p>
-      <p id="last_msg_desc_${this.address}">${this.lastMessageDescription}</p>
+      <p id="voice_${this.address}">voice: <span class="bouncy">${this.voiceName}</span></p>
+      <p id="last_msg_desc_${this.address}"><span class="bouncy">${this.lastMessageDescription}</span></p>
     `;
   }
 
@@ -191,16 +193,16 @@ class SynthChannel extends Channel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}</p>
+      <p>type:${this.channelType}</p>
       <h3>opt_group(0): effects</h3>
       ${this.renderEffectsChainAsHTML()}
       <h3>opt_group(1): vol</h3>
-      <p id="vol_${this.address}">volume: ${this.volume}dB</p>
+      <p id="vol_${this.address}">volume: <span class="bouncy">${this.volume}</span>dB</p>
       <h3>opt_group(2): waveform</h3>
-      <p id="waveform_${this.address}">waveform: ${this.waveform}</p>
+      <p id="waveform_${this.address}">waveform: <span class="bouncy">${this.waveform}</span></p>
       <h3>opt_group(3): envelope</h3>
-      <p id="amplitude_envelope_${this.address}">amplitude envelope: ${JSON.stringify(this.amplitudeEnvelopeArgs)}</p>
-      <p id="last_msg_desc_${this.address}">${this.lastMessageDescription}</p>
+      <p id="amplitude_envelope_${this.address}">amplitude envelope: <span class="bouncy">${JSON.stringify(this.amplitudeEnvelopeArgs)}</span></p>
+      <p id="last_msg_desc_${this.address}"><span class="bouncy">${this.lastMessageDescription}</span></p>
     `;
   }
 
@@ -270,9 +272,9 @@ class EffectChannel extends Channel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}</p>
+      <p>type:${this.channelType}</p>
       <h3>opt_group(1): effect</h3>
-      <p id="effect_${this.address}">effect: ${this.effectName}</p>
+      <p id="effect_${this.address}">effect: <span class="bouncy">${this.effectName}</span></p>
     `;
   }
 
@@ -305,11 +307,11 @@ class ReverbChannel extends EffectChannel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}/${this.effectName}</p>
+      <p>type:${this.channelType}/${this.effectName}</p>
       <h3>opt_group(1): decay</h3>
-      <p id="decay_${this.address}">decay: ${this.getDecayTimeAsNotation()}/${this.decayTime.toSeconds()}s</p>
+      <p id="decay_${this.address}">decay: <span class="bouncy">${this.getDecayTimeAsNotation()}/${this.decayTime.toSeconds()}s</span></p>
       <h3>opt_group(2): wetness</h3>
-      <p id="wetness_${this.address}">wetness: ${this.wetness}</p>
+      <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
     `;
   }
 
@@ -350,13 +352,13 @@ class DelayChannel extends EffectChannel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}/${this.effectName}</p>
+      <p>type:${this.channelType}/${this.effectName}</p>
       <h3>opt_group(1): delay</h3>
-      <p id="delay_${this.address}">delay: ${this.getDelayTimeAsNotation()}/${this.delayTime.toSeconds()}s</p>
+      <p id="delay_${this.address}">delay: <span class="bouncy">${this.getDelayTimeAsNotation()}/${this.delayTime.toSeconds()}s</span></p>
       <h3>opt_group(2): feedback</h3>
-      <p id="feedback_${this.address}">feedback: ${this.feedback}</p>
+      <p id="feedback_${this.address}">feedback: <span class="bouncy">${this.feedback}</span></p>
       <h3>opt_group(3): wetness</h3>
-      <p id="wetness_${this.address}">wetness: ${this.wetness}</p>
+      <p id="wetness_${this.address}">wetness: <span class="bouncy">${this.wetness}</span></p>
     `;
   }
 
@@ -376,10 +378,10 @@ class ControlChannel extends Channel {
   generateInnerHTML() {
     return `
       <h2>channel:${this.address}</h2>
-      <p>channel type: ${this.channelType}</p>
-      <p id="last_msg_desc_${this.address}">${this.lastMessageDescription}</p>
+      <p>type:${this.channelType}</p>
       <h3>opt_group(1): bpm</h3>
-      <p>bpm: ${this.getGlobalBpm()}</p>
+      <p>bpm: <span class="bouncy">${this.getGlobalBpm()}</span></p>
+      <p id="last_msg_desc_${this.address}"><span class="bouncy">${this.lastMessageDescription}</span></p>
     `;
   }
 

@@ -35,5 +35,5 @@ export const startWaveformLoop = () => {
     ctx.stroke();
   };
 
-  Transport.scheduleRepeat(repeat, "0.2");
+  Transport.scheduleRepeat(repeat, "0.1");
 };
